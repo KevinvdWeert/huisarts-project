@@ -1,5 +1,5 @@
 <?php
-// contact_handler.php - Simple contact form handler
+// contact_handler.php - Contact form handler
 session_start();
 
 // Check if form was submitted
@@ -15,22 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
     
     if (empty($name)) {
-        $errors[] = "Naam is verplicht";
+        $errors[] = "Name is required";
     }
     
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Geldig e-mailadres is verplicht";
+        $errors[] = "Valid email address is required";
     }
     
     if (empty($message)) {
-        $errors[] = "Bericht is verplicht";
+        $errors[] = "Message is required";
     }
     
     if (empty($errors)) {
         // In a real application, you would send an email or save to database
         // For now, we'll just set a success message
         
-        $_SESSION['form_success'] = "Bedankt voor uw bericht! Wij nemen binnen 24 uur contact met u op.";
+        $_SESSION['form_success'] = "Thank you for your message! We will contact you within 24 hours.";
         
         // Optionally, you could save to database here
         /*
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage());
-            $_SESSION['form_error'] = "Er is een technische fout opgetreden. Probeer het later opnieuw.";
+            $_SESSION['form_error'] = "A technical error occurred. Please try again later.";
         }
         */
         
