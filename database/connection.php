@@ -1,7 +1,7 @@
 <?php
 try {
     $host = 'localhost';
-    $dbname = 'huisarts_project';
+    $dbname = 'huisarts';
     $username = 'root';
     $password = '';
     
