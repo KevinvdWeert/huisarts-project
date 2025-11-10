@@ -1,16 +1,17 @@
-# Huisartspraktijk Website
+# Medical Practice Website
 
-Een moderne, responsieve website voor een huisartspraktijk gebouwd met PHP, HTML, CSS en JavaScript.
+A modern, responsive website for a medical practice built with PHP, HTML, CSS (Tailwind), and JavaScript.
 
 ## Features
 
-- ✅ **Responsief Design** - Werkt op desktop, tablet en mobiel
-- ✅ **Contact Formulier** - Met validatie en feedback
-- ✅ **Moderne UI** - Clean en professioneel design
-- ✅ **Database Ready** - Voorbereid voor database integratie
-- ✅ **SEO Geoptimaliseerd** - Meta tags en structured content
-- ✅ **Toegankelijk** - ARIA labels en keyboard navigatie
-- ✅ **Veilig** - Prepared statements en input sanitization
+- ✅ **Responsive Design** - Works on desktop, tablet and mobile
+- ✅ **Contact Form** - With validation and feedback
+- ✅ **Modern UI** - Clean and professional abstract design
+- ✅ **Database Ready** - Prepared for database integration
+- ✅ **SEO Optimized** - Meta tags and structured content
+- ✅ **Accessible** - ARIA labels and keyboard navigation
+- ✅ **Secure** - Prepared statements and input sanitization
+- ✅ **Abstract Design** - Modern gradient-based visual language
 
 ## Project Structuur
 
@@ -146,24 +147,10 @@ CREATE TABLE contact_messages (
 
 ## Browser Support
 
-- ✅ Chrome (laatste 2 versies)
-- ✅ Firefox (laatste 2 versies)
-- ✅ Safari (laatste 2 versies)
-- ✅ Edge (laatste 2 versies)
-- ⚠️ IE11 (beperkte ondersteuning)
-
-## Performance
-
-- ✅ **CSS**: Geoptimaliseerd en gecomprimeerd
-- ✅ **Images**: Placeholder voor optimalisatie
-- ⚠️ **Caching**: Implementeer browser caching headers
-- ⚠️ **Minification**: Minify CSS/JS voor productie
-
-## Contact & Support
-
-Voor vragen over deze website implementatie:
-- Email: developer@huisartspraktijk.nl
-- Documentatie updates welkom via pull requests
+- ✅ Chrome (latest 2 versions)
+- ✅ Firefox (latest 2 versions)
+- ✅ Safari (latest 2 versions)
+- ✅ Edge (latest 2 versions)
 
 ---
-*Laatste update: November 2024*
+*Last update: November 2024 - Fully translated to English with modern abstract design*
