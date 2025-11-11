@@ -17,66 +17,9 @@
             </p>
         </div>
     </section>
-    
-    <!-- Statistics & Features Section -->
-    <section class="mb-16 relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 rounded-3xl -z-10"></div>
-        <div class="py-12 px-6">
-            <!-- Statistics Grid -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div class="text-center group">
-                    <div class="relative mx-auto w-20 h-20 mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl transform rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
-                        <div class="relative bg-white rounded-2xl w-full h-full flex items-center justify-center shadow-lg">
-                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="text-3xl font-bold text-gray-800 mb-1">8,500+</div>
-                    <div class="text-sm text-gray-600 font-medium">Happy Patients</div>
-                </div>
-                
-                <div class="text-center group">
-                    <div class="relative mx-auto w-20 h-20 mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl transform -rotate-6 group-hover:-rotate-12 transition-transform duration-300"></div>
-                        <div class="relative bg-white rounded-2xl w-full h-full flex items-center justify-center shadow-lg">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="text-3xl font-bold text-gray-800 mb-1">25+</div>
-                    <div class="text-sm text-gray-600 font-medium">Years Experience</div>
-                </div>
-                
-                <div class="text-center group">
-                    <div class="relative mx-auto w-20 h-20 mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
-                        <div class="relative bg-white rounded-2xl w-full h-full flex items-center justify-center shadow-lg">
-                            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="text-3xl font-bold text-gray-800 mb-1">24/7</div>
-                    <div class="text-sm text-gray-600 font-medium">Emergency Care</div>
-                </div>
-                
-                <div class="text-center group">
-                    <div class="relative mx-auto w-20 h-20 mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl transform -rotate-3 group-hover:-rotate-6 transition-transform duration-300"></div>
-                        <div class="relative bg-white rounded-2xl w-full h-full flex items-center justify-center shadow-lg">
-                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="text-3xl font-bold text-gray-800 mb-1">98%</div>
-                    <div class="text-sm text-gray-600 font-medium">Satisfaction Rate</div>
-                </div>
-            </div>
-            
+
+    <!-- Features Section -->
+    <section class="mb-16 relative">     
             <!-- Features Grid -->
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
