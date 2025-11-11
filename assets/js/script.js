@@ -38,7 +38,553 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add typing animation for hero text
     initTypingAnimation();
+    
+    // Patient Management System Enhancements
+    initPatientManagement();
 });
+
+// Patient Management System Enhancements
+function initPatientManagement() {
+    // Enhanced search functionality
+    initEnhancedSearch();
+    
+    // Form validation and enhancements
+    initFormValidation();
+    
+    // Table interactions
+    initTableEnhancements();
+    
+    // Notes functionality
+    initNotesEnhancements();
+    
+    // Auto-save functionality
+    initAutoSave();
+    
+    // Keyboard shortcuts
+    initKeyboardShortcuts();
+    
+    // Print functionality
+    initPrintFunctionality();
+}
+
+// Enhanced search with debounce and live results
+function initEnhancedSearch() {
+    const searchInput = document.querySelector('.search-input');
+    const searchForm = document.querySelector('.search-form');
+    
+    if (searchInput && searchForm) {
+        let searchTimeout;
+        
+        // Live search with debounce
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            
+            if (query.length >= 2) {
+                searchTimeout = setTimeout(() => {
+                    // Add visual feedback
+                    this.style.background = 'linear-gradient(135deg, #fff 0%, #f0f8ff 100%)';
+                    this.style.borderColor = '#007bff';
+                    
+                    // Auto-submit for live search (optional)
+                    // searchForm.submit();
+                }, 300);
+            } else {
+                this.style.background = '';
+                this.style.borderColor = '';
+            }
+        });
+        
+        // Clear search functionality
+        const clearBtn = document.createElement('button');
+        clearBtn.type = 'button';
+        clearBtn.innerHTML = '✕';
+        clearBtn.className = 'search-clear';
+        clearBtn.style.cssText = `
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            display: none;
+        `;
+        
+        const searchContainer = searchInput.parentElement;
+        if (searchContainer) {
+            searchContainer.style.position = 'relative';
+            searchContainer.appendChild(clearBtn);
+        }
+        
+        searchInput.addEventListener('input', function() {
+            clearBtn.style.display = this.value ? 'block' : 'none';
+        });
+        
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchInput.focus();
+            this.style.display = 'none';
+            if (window.location.search.includes('search=')) {
+                window.location.href = window.location.pathname;
+            }
+        });
+    }
+}
+
+// Enhanced form validation
+function initFormValidation() {
+    const forms = document.querySelectorAll('.patient-form, .note-form');
+    
+    forms.forEach(form => {
+        // Real-time validation
+        const inputs = form.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            // Add input validation on blur
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            // Remove error styling on focus
+            input.addEventListener('focus', function() {
+                this.classList.remove('error');
+                const errorMsg = this.parentElement.querySelector('.error-message');
+                if (errorMsg && !errorMsg.textContent.includes('verplicht')) {
+                    errorMsg.style.display = 'none';
+                }
+            });
+            
+            // Character counter for textareas
+            if (input.tagName === 'TEXTAREA') {
+                addCharacterCounter(input);
+            }
+        });
+        
+        // Enhanced form submission
+        form.addEventListener('submit', function(e) {
+            if (!validateForm(this)) {
+                e.preventDefault();
+                showFormErrors();
+            } else {
+                addFormLoadingState(this);
+            }
+        });
+    });
+}
+
+// Validate individual field
+function validateField(field) {
+    const value = field.value.trim();
+    const isRequired = field.hasAttribute('required');
+    const type = field.type;
+    const name = field.name;
+    
+    // Clear previous errors
+    field.classList.remove('error');
+    
+    // Required field validation
+    if (isRequired && !value) {
+        showFieldError(field, 'Dit veld is verplicht');
+        return false;
+    }
+    
+    // Email validation
+    if (type === 'email' && value && !isValidEmail(value)) {
+        showFieldError(field, 'Voer een geldig emailadres in');
+        return false;
+    }
+    
+    // Phone validation (Dutch format)
+    if (name === 'phone' && value && !isValidPhone(value)) {
+        showFieldError(field, 'Voer een geldig telefoonnummer in');
+        return false;
+    }
+    
+    // Date validation
+    if (type === 'date' && value && !isValidDate(value)) {
+        showFieldError(field, 'Voer een geldige datum in');
+        return false;
+    }
+    
+    // Postal code validation (Dutch format)
+    if (name === 'postcode' && value && !isValidPostalCode(value)) {
+        showFieldError(field, 'Voer een geldige postcode in (1234AB)');
+        return false;
+    }
+    
+    // Show success
+    showFieldSuccess(field);
+    return true;
+}
+
+// Helper validation functions
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isValidPhone(phone) {
+    // Dutch phone number formats
+    return /^(\+31|0031|0)[6-9][0-9]{8}$|^(\+31|0031|0)[1-9][0-9]{8}$/.test(phone.replace(/[\s-]/g, ''));
+}
+
+function isValidDate(date) {
+    const d = new Date(date);
+    return d instanceof Date && !isNaN(d) && d <= new Date();
+}
+
+function isValidPostalCode(postcode) {
+    return /^[1-9][0-9]{3}[A-Za-z]{2}$/.test(postcode.replace(/\s/g, ''));
+}
+
+// Show field error
+function showFieldError(field, message) {
+    field.classList.add('error');
+    
+    let errorElement = field.parentElement.querySelector('.error-message');
+    if (!errorElement) {
+        errorElement = document.createElement('span');
+        errorElement.className = 'error-message';
+        field.parentElement.appendChild(errorElement);
+    }
+    
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    
+    // Scroll to first error
+    if (document.querySelector('.error') === field) {
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// Show field success
+function showFieldSuccess(field) {
+    const errorElement = field.parentElement.querySelector('.error-message');
+    if (errorElement && !field.hasAttribute('required')) {
+        errorElement.style.display = 'none';
+    }
+}
+
+// Add character counter to textareas
+function addCharacterCounter(textarea) {
+    const maxLength = textarea.maxLength || 1000;
+    
+    const counter = document.createElement('div');
+    counter.className = 'character-counter';
+    counter.style.cssText = `
+        font-size: 0.8rem;
+        color: #666;
+        text-align: right;
+        margin-top: 0.25rem;
+    `;
+    
+    const updateCounter = () => {
+        const count = textarea.value.length;
+        counter.textContent = `${count}/${maxLength}`;
+        
+        if (count > maxLength * 0.9) {
+            counter.style.color = '#dc3545';
+        } else if (count > maxLength * 0.7) {
+            counter.style.color = '#ffc107';
+        } else {
+            counter.style.color = '#666';
+        }
+    };
+    
+    textarea.addEventListener('input', updateCounter);
+    textarea.parentElement.appendChild(counter);
+    updateCounter();
+}
+
+// Enhanced table interactions
+function initTableEnhancements() {
+    const table = document.querySelector('.patients-table');
+    
+    if (table) {
+        // Row click to view patient (optional)
+        const rows = table.querySelectorAll('tbody tr');
+        
+        rows.forEach(row => {
+            // Add click indicator
+            row.style.cursor = 'pointer';
+            
+            // Double-click to edit
+            row.addEventListener('dblclick', function(e) {
+                e.preventDefault();
+                const editLink = this.querySelector('a[href*="edit_patient"]');
+                if (editLink) {
+                    window.location.href = editLink.href;
+                }
+            });
+            
+            // Hover effect with animation
+            row.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+                this.style.transform = 'translateX(4px)';
+                this.style.boxShadow = '0 4px 12px rgba(0,123,255,0.15)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+        
+        // Sort indication improvements
+        const sortLinks = table.querySelectorAll('th a');
+        sortLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Add loading state
+                const table = document.querySelector('.patients-table');
+                if (table) {
+                    table.style.opacity = '0.7';
+                    table.style.pointerEvents = 'none';
+                }
+            });
+        });
+    }
+}
+
+// Notes enhancements
+function initNotesEnhancements() {
+    // Auto-resize textareas
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+        autoResize(textarea);
+        textarea.addEventListener('input', () => autoResize(textarea));
+    });
+    
+    // Note deletion confirmation
+    const deleteLinks = document.querySelectorAll('a[href*="delete_note"]');
+    deleteLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (confirm('Weet u zeker dat u deze notitie wilt verwijderen?')) {
+                // Add loading state
+                this.innerHTML = '⏳';
+                this.style.pointerEvents = 'none';
+                window.location.href = this.href;
+            }
+        });
+    });
+    
+    // Auto-save notes (draft functionality)
+    const noteTextarea = document.querySelector('textarea[name="text"]');
+    if (noteTextarea) {
+        let saveTimeout;
+        
+        noteTextarea.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            
+            saveTimeout = setTimeout(() => {
+                saveDraft(this.value);
+            }, 2000);
+        });
+        
+        // Load draft on page load
+        loadDraft(noteTextarea);
+    }
+}
+
+// Auto-resize textarea
+function autoResize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+}
+
+// Auto-save functionality
+function initAutoSave() {
+    const forms = document.querySelectorAll('.patient-form, .note-form');
+    
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    saveFormData(form);
+                }
+            });
+        });
+    });
+    
+    // Load saved data on page load
+    const currentForm = document.querySelector('.patient-form, .note-form');
+    if (currentForm) {
+        loadFormData(currentForm);
+    }
+}
+
+// Save form data to localStorage
+function saveFormData(form) {
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    const formId = form.className + '_' + window.location.pathname;
+    
+    localStorage.setItem('autosave_' + formId, JSON.stringify(data));
+    
+    // Show auto-save indicator
+    showAutoSaveIndicator();
+}
+
+// Load form data from localStorage
+function loadFormData(form) {
+    const formId = form.className + '_' + window.location.pathname;
+    const savedData = localStorage.getItem('autosave_' + formId);
+    
+    if (savedData) {
+        try {
+            const data = JSON.parse(savedData);
+            
+            Object.keys(data).forEach(name => {
+                const field = form.querySelector(`[name="${name}"]`);
+                if (field && field.value === '') {
+                    field.value = data[name];
+                    
+                    // Trigger change event for any listeners
+                    field.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            });
+            
+            // Show restore message
+            if (Object.keys(data).length > 0) {
+                showRestoreMessage(form, formId);
+            }
+        } catch (e) {
+            console.log('Error loading auto-saved data:', e);
+        }
+    }
+}
+
+// Clear saved form data
+function clearFormData(form) {
+    const formId = form.className + '_' + window.location.pathname;
+    localStorage.removeItem('autosave_' + formId);
+}
+
+// Show auto-save indicator
+function showAutoSaveIndicator() {
+    let indicator = document.querySelector('.autosave-indicator');
+    
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'autosave-indicator';
+        indicator.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        indicator.innerHTML = '💾 Auto-saved';
+        document.body.appendChild(indicator);
+    }
+    
+    indicator.style.opacity = '1';
+    
+    setTimeout(() => {
+        indicator.style.opacity = '0';
+    }, 2000);
+}
+
+// Show restore message
+function showRestoreMessage(form, formId) {
+    const message = document.createElement('div');
+    message.className = 'restore-message alert alert-info';
+    message.innerHTML = `
+        <span>Niet-opgeslagen wijzigingen hersteld.</span>
+        <button type="button" onclick="clearRestoreData('${formId}'); this.parentElement.remove();" style="margin-left: 1rem; background: none; border: none; color: inherit; text-decoration: underline; cursor: pointer;">
+            Verwijderen
+        </button>
+    `;
+    
+    form.parentElement.insertBefore(message, form);
+    
+    setTimeout(() => {
+        if (message.parentElement) {
+            message.remove();
+        }
+    }, 10000);
+}
+
+// Global function to clear restore data
+window.clearRestoreData = function(formId) {
+    localStorage.removeItem('autosave_' + formId);
+};
+
+// Keyboard shortcuts
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + S to save form
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.click();
+            }
+        }
+        
+        // Ctrl/Cmd + F to focus search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+            e.preventDefault();
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.select();
+            }
+        }
+        
+        // Escape to clear search or close modals
+        if (e.key === 'Escape') {
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput && document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchInput.blur();
+            }
+        }
+    });
+}
+
+// Print functionality
+function initPrintFunctionality() {
+    // Add print button to pages with patient data
+    if (document.querySelector('.patients-table, .notes-list')) {
+        const printBtn = document.createElement('button');
+        printBtn.className = 'btn btn-secondary btn-sm';
+        printBtn.innerHTML = '🖨️ Afdrukken';
+        printBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+        
+        printBtn.addEventListener('click', function() {
+            window.print();
+        });
+        
+        document.body.appendChild(printBtn);
+        
+        // Hide print button when printing
+        window.addEventListener('beforeprint', function() {
+            printBtn.style.display = 'none';
+        });
+        
+        window.addEventListener('afterprint', function() {
+            printBtn.style.display = 'block';
+        });
+    }
+}
 
 // Performance optimizations
 function initPerformanceOptimizations() {

@@ -1,5 +1,10 @@
 <?php 
+// Include config first to set session parameters
+require_once 'config/config.php';
+
+// Start session after config is loaded
 session_start();
+
 include_once 'includes/header.php'; 
 ?>
 

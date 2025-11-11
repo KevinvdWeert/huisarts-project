@@ -48,7 +48,235 @@
 .glass-dark {
     background: rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Patient Management System Styles */
+/* ================================ */
+
+/* Global enhancements for patient management */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Enhanced table styling for patient overview */
+.patients-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.patients-table thead th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.patients-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.patients-table tbody tr:hover {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    transform: translateX(2px);
+}
+
+.patients-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Enhanced form styling */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Button enhancements */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Alert enhancements */
+.alert {
+    border-left-width: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.3;
+}
+
+/* Card enhancements */
+.note-item,
+.patient-form,
+.delete-form {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.note-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced search bar */
+.search-input {
+    position: relative;
+}
+
+.search-input:focus {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+/* Pagination enhancements */
+.pagination-link {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.pagination-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.pagination-current {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Loading animation for forms */
+.form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+    .patients-table {
+        font-size: 0.8rem;
+    }
+    
+    .patients-table th,
+    .patients-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-actions .btn {
+        margin-bottom: 0.5rem;
+    }
+    
+    .header-content {
+        text-align: center;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .glass {
+        background: rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .patients-table tbody tr:nth-child(even) {
+        background-color: #2d3748;
+    }
+}
+
+/* Accessibility enhancements */
+.btn:focus,
+.form-group input:focus,
+.pagination-link:focus {
+    outline: 2px solid #4299e1;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .dashboard-header,
+    .btn,
+    .pagination,
+    .add-note-section {
+        display: none !important;
+    }
+    
+    .patients-table,
+    .note-item {
+        break-inside: avoid;
+    }
+    
+    body {
+        color: black !important;
+        background: white !important;
+    }
 }
 
 /* Floating animation with variations */
