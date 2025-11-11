@@ -15,10 +15,7 @@ try {
     );
     
 } catch (PDOException $e) {
-    // Log error instead of displaying it
     error_log("Database Connection Error: " . $e->getMessage());
-    
-    // Display generic error message to user
     die("Er is een technische fout opgetreden. Probeer het later opnieuw.");
 }
 ?>

@@ -1,9 +1,4 @@
 <?php
-/**
- * Configuration file for the Huisarts Project
- * Store sensitive information and global settings here
- */
-
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'huisarts');
