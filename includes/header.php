@@ -10,10 +10,11 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Medical Practice</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/script.js" defer></script>
 </head>
 <body class="bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 min-h-screen">
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-white/20 shadow-lg">
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-lg">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="nav-logo">
