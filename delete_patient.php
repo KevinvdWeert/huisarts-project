@@ -1,8 +1,10 @@
 <?php
+require_once 'config/config.php';
 require_once 'auth.php';
 checkSession();
 
 $current_user = getCurrentUser();
+$pdo = getDbConnection();
 $patient = null;
 $patient_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -72,18 +74,34 @@ try {
 require_once 'includes/header.php';
 ?>
 
-<div class="dashboard-header">
-    <div class="header-content">
-        <h1>Patiënt Verwijderen</h1>
-        <div class="header-actions">
-            <a href="dashboard.php" class="btn btn-secondary">← Terug naar overzicht</a>
-            <a href="edit_patient.php?id=<?php echo $patient_id; ?>" class="btn btn-primary">✏️ Bewerken</a>
-            <a href="logout.php" class="btn btn-secondary btn-sm">Uitloggen</a>
+<div class="flex min-h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-gray-200 fixed h-full overflow-y-auto">
+        <div class="p-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-red-600 mb-2">⚠️ Verwijderen</h2>
+                <p class="text-sm text-gray-500">Deze actie kan niet ongedaan worden</p>
+            </div>
+            <div class="space-y-2">
+                <a href="dashboard.php" class="flex items-center space-x-2 px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span class="font-medium text-gray-700">Terug</span>
+                </a>
+                <a href="edit_patient.php?id=<?php echo $patient_id; ?>" class="flex items-center space-x-2 px-4 py-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <span class="font-medium text-blue-600">Bewerken</span>
+                </a>
+            </div>
         </div>
-    </div>
-</div>
-
-<div class="delete-container">
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="flex-1 ml-72 p-8">
+        <div class="max-w-4xl">
     <?php if (isset($error_message)): ?>
         <div class="alert alert-error">
             <?php echo htmlspecialchars($error_message); ?>
@@ -198,51 +216,43 @@ require_once 'includes/header.php';
         </form>
     </div>
 </div>
+    </main>
+</div>
 
 <style>
-.dashboard-header {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    color: white;
-    padding: 1rem;
-    margin: -20px -20px 20px -20px;
+body {
+    background: #f9fafb;
+    background: #f9fafb;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    gap: 1rem;
+aside::-webkit-scrollbar {
+    width: 6px;
 }
 
-.header-content h1 {
-    margin: 0;
+aside::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.header-actions {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+aside::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
 }
 
-.delete-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
+aside::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
 }
 
 .delete-form {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     overflow: hidden;
+    border: 1px solid #e5e7eb;
 }
 
 .warning-section {
-    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-    border: 2px solid #ffc107;
+    background-color: #fef3c7;
+    border-bottom: 1px solid #fbbf24;
     padding: 2rem;
     text-align: center;
 }
@@ -395,15 +405,13 @@ require_once 'includes/header.php';
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: #ef4444;
     color: white;
     font-weight: 600;
 }
 
 .btn-danger:hover {
-    background-color: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    background-color: #dc2626;
 }
 
 .alert {

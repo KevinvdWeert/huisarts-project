@@ -65,8 +65,8 @@ function getNavLinkClass($page) {
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="nav-logo">
-                    <a href="index.php" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        Medical Practice
+                    <a href="index.php" class="flex items-center">
+                        <img src="assets/img/logo.svg" alt="Huisarts Logo" class="h-12">
                     </a>
                 </div>
                 <ul class="hidden md:flex space-x-8 items-center">
@@ -77,29 +77,14 @@ function getNavLinkClass($page) {
                     <?php if (isLoggedIn()): ?>
                         <li><a href="dashboard.php" class="<?php echo getNavLinkClass('dashboard.php'); ?>">Dashboard</a></li>
                         <li><a href="add_patient.php" class="<?php echo getNavLinkClass('add_patient.php'); ?>">Nieuwe Patiënt</a></li>
-                        <li class="relative group">
-                            <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                <span><?php echo htmlspecialchars(getCurrentUser()['username']); ?></span>
-                            </button>
-                            <div class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
-                                <div class="px-4 py-2 text-sm text-gray-500 border-b border-gray-200">
-                                    <?php echo htmlspecialchars(getCurrentUser()['role']); ?>
-                                </div>
-                                <a href="logout.php" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                    Uitloggen
-                                </a>
-                            </div>
-                        </li>
+                        <li><a href="logout.php" class="text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105" style="background-color: rgba(37, 99, 235, var(--tw-bg-opacity));">Uitloggen</a></li>
                     <?php else: ?>
                         <li><a href="login.php" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Inloggen</a></li>
                     <?php endif; ?>
                 </ul>
                 <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
             </div>

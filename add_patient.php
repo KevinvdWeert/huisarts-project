@@ -1,8 +1,10 @@
 <?php
+require_once 'config/config.php';
 require_once 'auth.php';
 checkSession();
 
 $current_user = getCurrentUser();
+$pdo = getDbConnection();
 $success_message = '';
 $error_message = '';
 $form_errors = [];
@@ -68,7 +70,26 @@ if ($_POST) {
 require_once 'includes/header.php';
 ?>
 
-<div class="form-container">
+<div class="flex min-h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-gray-200 fixed h-full overflow-y-auto">
+        <div class="p-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Nieuwe Patiënt</h2>
+                <p class="text-sm text-gray-500">Voeg een nieuwe patiënt toe aan het systeem</p>
+            </div>
+            <a href="dashboard.php" class="flex items-center space-x-2 px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                <span class="font-medium text-gray-700">Terug naar Dashboard</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="flex-1 ml-72 p-8">
+        <div class="max-w-4xl">
     <?php if ($success_message): ?>
         <div class="alert alert-success">
             <?php echo htmlspecialchars($success_message); ?>
@@ -205,44 +226,38 @@ require_once 'includes/header.php';
         </div>
     </form>
 </div>
+    </main>
+</div>
 
 <style>
-.dashboard-header {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    color: white;
-    padding: 1rem;
-    margin: -20px -20px 20px -20px;
+body {
+    background: #f9fafb;
+    background: #f9fafb;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
+aside::-webkit-scrollbar {
+    width: 6px;
 }
 
-.header-content h1 {
-    margin: 0;
+aside::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.header-actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+aside::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
 }
 
-.form-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
+aside::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
 }
 
 .patient-form {
     background: white;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e5e7eb;
 }
 
 .form-section {
@@ -258,9 +273,11 @@ require_once 'includes/header.php';
 .form-section h3 {
     margin-top: 0;
     margin-bottom: 1.5rem;
-    color: #495057;
-    border-bottom: 2px solid #28a745;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
     padding-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
 }
 
 .form-row {
@@ -348,12 +365,13 @@ require_once 'includes/header.php';
 }
 
 .btn-success {
-    background-color: #28a745;
+    background-color: #10b981;
     color: white;
+    font-weight: 600;
 }
 
 .btn-success:hover {
-    background-color: #1e7e34;
+    background-color: #059669;
 }
 
 .btn-secondary {
@@ -375,9 +393,9 @@ require_once 'includes/header.php';
 }
 
 .alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid #10b981;
 }
 
 .alert-error {

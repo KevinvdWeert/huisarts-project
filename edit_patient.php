@@ -1,8 +1,10 @@
 <?php
+require_once 'config/config.php';
 require_once 'auth.php';
 checkSession();
 
 $current_user = getCurrentUser();
+$pdo = getDbConnection();
 $success_message = '';
 $error_message = '';
 $form_errors = [];
@@ -113,21 +115,36 @@ if ($_POST) {
 require_once 'includes/header.php';
 ?>
 
-<div class="dashboard-header">
-    <div class="header-content">
-        <h1>Patiënt Bewerken</h1>
-        <div class="patient-info">
-            <?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?>
+<div class="flex min-h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-gray-200 fixed h-full overflow-y-auto">
+        <div class="p-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Patiënt Bewerken</h2>
+                <div class="bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium text-blue-700">
+                    <?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <a href="dashboard.php" class="flex items-center space-x-2 px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span class="font-medium text-gray-700">Dashboard</span>
+                </a>
+                <a href="patient_notes.php?id=<?php echo $patient_id; ?>" class="flex items-center space-x-2 px-4 py-3 rounded-xl bg-green-50 hover:bg-green-100 transition-colors">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span class="font-medium text-green-600">Notities</span>
+                </a>
+            </div>
         </div>
-        <div class="header-actions">
-            <a href="dashboard.php" class="btn btn-secondary">← Terug naar overzicht</a>
-            <a href="patient_notes.php?id=<?php echo $patient_id; ?>" class="btn btn-info">📝 Notities</a>
-            <a href="logout.php" class="btn btn-secondary btn-sm">Uitloggen</a>
-        </div>
-    </div>
-</div>
-
-<div class="form-container">
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="flex-1 ml-72 p-8">
+        <div class="max-w-4xl">
     <?php if ($success_message): ?>
         <div class="alert alert-success">
             <?php echo htmlspecialchars($success_message); ?>
@@ -282,54 +299,42 @@ require_once 'includes/header.php';
         </div>
     </form>
 </div>
+    </main>
+</div>
 
 <style>
-.dashboard-header {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    color: white;
-    padding: 1rem;
-    margin: -20px -20px 20px -20px;
+body {
+    background: #f9fafb;
+    background: #f9fafb;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    gap: 1rem;
+aside::-webkit-scrollbar {
+    width: 6px;
 }
 
-.header-content h1 {
-    margin: 0;
+aside::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.patient-info {
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
+aside::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
 }
 
-.header-actions {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+aside::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
 }
 
 .form-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    max-width: 100%;
 }
 
 .patient-form {
     background: white;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e5e7eb;
 }
 
 .form-section {
@@ -345,9 +350,11 @@ require_once 'includes/header.php';
 .form-section h3 {
     margin-top: 0;
     margin-bottom: 1.5rem;
-    color: #495057;
-    border-bottom: 2px solid #007bff;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
     padding-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
 }
 
 .form-row {
@@ -437,12 +444,13 @@ require_once 'includes/header.php';
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #3b82f6;
     color: white;
+    font-weight: 600;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #2563eb;
 }
 
 .btn-secondary {
