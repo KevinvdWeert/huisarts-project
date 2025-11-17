@@ -1,8 +1,8 @@
 <?php 
 require_once 'config/config.php';
 require_once 'auth.php'; 
-include_once 'includes/header.php'; 
-include_once 'database/connection.php'; 
+require_once 'database/connection.php'; 
+require_once 'includes/header.php'; 
 ?>
 
 <div class="container mx-auto px-6 py-12">
@@ -153,4 +153,4 @@ include_once 'database/connection.php';
     </section>
 </div>
 
-<?php include_once 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

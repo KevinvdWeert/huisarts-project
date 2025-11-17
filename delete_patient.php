@@ -69,7 +69,7 @@ try {
     error_log("Error counting notes: " . $e->getMessage());
 }
 
-include 'includes/header.php';
+require_once 'includes/header.php';
 ?>
 
 <div class="dashboard-header">
@@ -454,4 +454,4 @@ include 'includes/header.php';
 }
 </style>
 
-<?php include 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

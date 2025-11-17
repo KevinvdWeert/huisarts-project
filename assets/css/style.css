@@ -612,6 +612,54 @@ body {
     }
 }
 
+/* Navigation Active State Enhancements */
+nav a {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+nav a.active,
+nav a[class*="border-b-2"] {
+    position: relative;
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    border-radius: 2px;
+}
+
+/* Consistent page containers */
+.page-container {
+    min-height: calc(100vh - 200px);
+}
+
+/* Unified hero sections */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Consistent card styling */
+.card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
 /* Inline style replacements */
 .btn-with-margin {
     margin-left: 1rem;

@@ -32,4 +32,9 @@ ini_set('display_errors', 1);
 
 // Timezone
 date_default_timezone_set('Europe/Amsterdam');
+
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>

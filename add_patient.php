@@ -65,18 +65,8 @@ if ($_POST) {
     }
 }
 
-include 'includes/header.php';
+require_once 'includes/header.php';
 ?>
-
-<div class="dashboard-header">
-    <div class="header-content">
-        <h1>Nieuwe Patiënt Toevoegen</h1>
-        <div class="header-actions">
-            <a href="dashboard.php" class="btn btn-secondary">← Terug naar overzicht</a>
-            <a href="logout.php" class="btn btn-secondary btn-sm">Uitloggen</a>
-        </div>
-    </div>
-</div>
 
 <div class="form-container">
     <?php if ($success_message): ?>
@@ -418,4 +408,4 @@ include 'includes/header.php';
 }
 </style>
 
-<?php include 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

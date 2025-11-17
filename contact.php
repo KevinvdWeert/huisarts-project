@@ -1,11 +1,7 @@
 <?php 
-// Include config first to set session parameters
 require_once 'config/config.php';
-
-// Start session after config is loaded
-session_start();
-
-include_once 'includes/header.php'; 
+require_once 'includes/security_helpers.php';
+require_once 'includes/header.php'; 
 ?>
 
 <div class="container mx-auto px-6 py-12">
@@ -175,7 +171,9 @@ include_once 'includes/header.php';
             <div class="relative z-10">
                 <h2 class="text-3xl font-bold text-gray-800 mb-6">Send us a Message</h2>
                 
-                <form action="contact_handler.php" method="POST" class="space-y-6">
+                <form action="contact_handler.php" method="POST" class="space-y-6" id="contactForm">
+                    <?php echo csrfField(); ?>
+                    
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
                         <input 
@@ -184,8 +182,11 @@ include_once 'includes/header.php';
                             name="name" 
                             value="<?php echo isset($_SESSION['form_data']['name']) ? htmlspecialchars($_SESSION['form_data']['name']) : ''; ?>" 
                             required
+                            minlength="2"
+                            maxlength="100"
                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 hover:border-gray-300"
                         >
+                        <small class="text-gray-500">2-100 characters</small>
                     </div>
                     
                     <div>
@@ -207,8 +208,11 @@ include_once 'includes/header.php';
                             id="phone" 
                             name="phone" 
                             value="<?php echo isset($_SESSION['form_data']['phone']) ? htmlspecialchars($_SESSION['form_data']['phone']) : ''; ?>"
+                            pattern="^(\+31|0031|0)[1-9][0-9]{8}$"
+                            placeholder="0612345678"
                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 hover:border-gray-300"
                         >
+                        <small class="text-gray-500">Dutch format: 0612345678</small>
                     </div>
                     
                     <div>
@@ -232,8 +236,14 @@ include_once 'includes/header.php';
                             name="message" 
                             rows="5" 
                             required
+                            minlength="10"
+                            maxlength="5000"
                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 resize-none hover:border-gray-300"
                         ><?php echo isset($_SESSION['form_data']['message']) ? htmlspecialchars($_SESSION['form_data']['message']) : ''; ?></textarea>
+                        <div class="flex justify-between">
+                            <small class="text-gray-500">10-5000 characters</small>
+                            <small id="charCount" class="text-gray-500">0 / 5000</small>
+                        </div>
                     </div>
                     
                     <button 
@@ -242,13 +252,102 @@ include_once 'includes/header.php';
                     >
                         Send Message
                     </button>
+                    
+                    <p class="text-sm text-gray-500 text-center">
+                        <kbd class="px-2 py-1 bg-gray-100 rounded">Ctrl</kbd> + 
+                        <kbd class="px-2 py-1 bg-gray-100 rounded">Enter</kbd> to submit
+                    </p>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+// Character counter
+const messageField = document.getElementById('message');
+const charCount = document.getElementById('charCount');
+
+if (messageField && charCount) {
+    function updateCharCount() {
+        const length = messageField.value.length;
+        charCount.textContent = `${length} / 5000`;
+        
+        if (length > 4500) {
+            charCount.classList.add('text-red-600');
+            charCount.classList.remove('text-gray-500');
+        } else {
+            charCount.classList.remove('text-red-600');
+            charCount.classList.add('text-gray-500');
+        }
+    }
+    
+    messageField.addEventListener('input', updateCharCount);
+    updateCharCount(); // Initialize
+}
+
+// Keyboard shortcut: Ctrl+Enter to submit
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            contactForm.submit();
+        }
+    });
+}
+
+// Auto-save to localStorage
+let autoSaveTimeout;
+const formInputs = contactForm.querySelectorAll('input, textarea, select');
+
+formInputs.forEach(input => {
+    input.addEventListener('input', function() {
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            const formData = new FormData(contactForm);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (key !== 'csrf_token') {
+                    data[key] = value;
+                }
+            });
+            localStorage.setItem('contactFormDraft', JSON.stringify(data));
+        }, 1000);
+    });
+});
+
+// Restore from localStorage on page load
+window.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('contactFormDraft');
+    if (saved && !messageField.value) { // Only restore if form is empty
+        const data = JSON.parse(saved);
+        Object.keys(data).forEach(key => {
+            const field = contactForm.querySelector(`[name="${key}"]`);
+            if (field) {
+                field.value = data[key];
+            }
+        });
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        notification.textContent = 'Draft restored from previous session';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+});
+
+// Clear draft on successful submission
+contactForm.addEventListener('submit', function() {
+    localStorage.removeItem('contactFormDraft');
+});
+</script>
+
 <?php 
 unset($_SESSION['form_data']); 
-include_once 'includes/footer.php'; 
+require_once 'includes/footer.php'; 
 ?>

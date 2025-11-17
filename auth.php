@@ -1,6 +1,11 @@
 <?php
-session_start();
-require_once 'database/connection.php';
+// Don't start session here - let it be handled by the calling script
+require_once __DIR__ . '/database/connection.php';
+
+// Ensure session is started (safe check)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Check if user is logged in
 function isLoggedIn() {
@@ -17,13 +22,12 @@ function requireLogin() {
 
 // Get current user info
 function getCurrentUser() {
-    global $pdo;
-    
     if (!isLoggedIn()) {
         return null;
     }
     
     try {
+        $pdo = getDbConnection();
         $stmt = $pdo->prepare("SELECT user_id, username, role FROM users WHERE user_id = ?");
         $stmt->execute([$_SESSION['user_id']]);
         return $stmt->fetch();

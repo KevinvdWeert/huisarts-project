@@ -1,6 +1,6 @@
 <?php 
 require_once 'config/config.php';
-include_once 'includes/header.php'; 
+require_once 'includes/header.php'; 
 ?>
 
 <div class="container mx-auto px-6 py-12">
@@ -261,4 +261,4 @@ include_once 'includes/header.php';
     </div>
 </div>
 
-<?php include_once 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

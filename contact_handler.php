@@ -1,29 +1,50 @@
 <?php
 // contact_handler.php - Contact form handler
-session_start();
+require_once 'config/config.php';
+require_once 'includes/security_helpers.php';
 
 // Check if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input data
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    // Validate CSRF token
+    if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
+        $_SESSION['form_errors'] = ['Invalid security token. Please try again.'];
+        $_SESSION['form_data'] = $_POST;
+        header('Location: contact.php');
+        exit;
+    }
+    
+    // Sanitize input data using new method
+    $name = sanitizeInput($_POST['name'] ?? '');
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
-    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+    $phone = sanitizeInput($_POST['phone'] ?? '');
+    $subject = sanitizeInput($_POST['subject'] ?? '');
+    $message = sanitizeInput($_POST['message'] ?? '');
     
     // Validate required fields
     $errors = [];
     
-    if (empty($name)) {
-        $errors[] = "Name is required";
+    if (empty($name) || strlen($name) < 2) {
+        $errors[] = "Name must be at least 2 characters";
+    }
+    
+    if (strlen($name) > 100) {
+        $errors[] = "Name must be less than 100 characters";
     }
     
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Valid email address is required";
     }
     
-    if (empty($message)) {
-        $errors[] = "Message is required";
+    if (!empty($phone) && !validateDutchPhone($phone)) {
+        $errors[] = "Please enter a valid Dutch phone number";
+    }
+    
+    if (empty($message) || strlen($message) < 10) {
+        $errors[] = "Message must be at least 10 characters";
+    }
+    
+    if (strlen($message) > 5000) {
+        $errors[] = "Message must be less than 5000 characters";
     }
     
     if (empty($errors)) {
@@ -35,14 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Optionally, you could save to database here
         /*
         try {
-            include_once 'database/connection.php';
+            $pdo = getDbConnection();
             
             $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, phone, subject, message, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
             $stmt->execute([$name, $email, $phone, $subject, $message]);
             
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage());
-            $_SESSION['form_error'] = "A technical error occurred. Please try again later.";
+            $_SESSION['form_errors'] = ["A technical error occurred. Please try again later."];
+            $_SESSION['form_data'] = $_POST;
+            header('Location: contact.php');
+            exit;
         }
         */
         

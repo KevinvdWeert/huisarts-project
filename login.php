@@ -38,7 +38,7 @@ if (isset($_GET['logout'])) {
     $success_message = 'U bent succesvol uitgelogd.';
 }
 
-include 'includes/header.php';
+require_once 'includes/header.php';
 ?>
 
 <div class="login-container">
@@ -208,4 +208,4 @@ include 'includes/header.php';
 }
 </style>
 
-<?php include 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

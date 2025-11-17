@@ -5,6 +5,9 @@ checkSession();
 
 $current_user = getCurrentUser();
 
+// Get database connection
+$pdo = getDbConnection();
+
 // Check for session messages
 $session_success = isset($_SESSION['success']) ? $_SESSION['success'] : '';
 $session_error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
@@ -71,31 +74,8 @@ function getSortIcon($column, $current_sort, $current_order) {
     return $current_order === 'ASC' ? '🔼' : '🔽';
 }
 
-include_once 'includes/header.php';
+require_once 'includes/header.php';
 ?>
-
-<!-- Admin Panel Banner -->
-<div class="admin-panel-banner">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="text-white">
-            <h1 class="text-2xl font-bold">👥 Patiënten Dashboard</h1>
-            <p class="text-blue-100">Welkom, <?php echo htmlspecialchars($current_user['username']); ?>! 
-                <span class="text-white/80">(<?php echo htmlspecialchars($current_user['role']); ?>)</span>
-            </p>
-        </div>
-        <div class="space-x-4">
-            <a href="add_patient.php" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300">
-                ➕ Nieuwe Patiënt
-            </a>
-            <a href="index.php" class="border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
-                🏠 Terug naar Home
-            </a>
-            <a href="logout.php" class="border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
-                🚪 Uitloggen
-            </a>
-        </div>
-    </div>
-</div>
 
 <div class="container mx-auto px-6 py-12">
     <!-- Statistics Cards -->
@@ -473,4 +453,4 @@ include_once 'includes/header.php';
 }
 </style>
 
-<?php include_once 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>
