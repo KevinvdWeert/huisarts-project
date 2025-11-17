@@ -611,3 +611,17 @@ body {
         background: linear-gradient(90deg, #374151 0px, #6b7280 40px, #374151 80px);
     }
 }
+
+/* Inline style replacements */
+.btn-with-margin {
+    margin-left: 1rem;
+}
+
+.restore-dismiss-btn {
+    margin-left: 1rem;
+    background: none;
+    border: none;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}

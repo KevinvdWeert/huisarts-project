@@ -6,7 +6,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // Site Configuration
-define('SITE_NAME', 'Huisartspraktijk');
+define('SITE_NAME', 'Medical Practice');
 define('SITE_URL', 'http://localhost/huisarts-project');
 define('ADMIN_EMAIL', 'admin@huisartspraktijk.nl');
 

@@ -1,5 +1,6 @@
 <?php
 require_once 'auth.php';
+$pdo = getDbConnection();
 
 $error_message = '';
 $success_message = '';
@@ -18,7 +19,7 @@ if ($_POST && isset($_POST['username'], $_POST['password'])) {
     if (empty($username) || empty($password)) {
         $error_message = 'Voer zowel gebruikersnaam als wachtwoord in.';
     } else {
-        if (login($username, $password)) {
+        if (login($pdo, $username, $password)) {
             header('Location: dashboard.php');
             exit;
         } else {

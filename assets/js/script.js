@@ -502,7 +502,7 @@ function showRestoreMessage(form, formId) {
     message.className = 'restore-message alert alert-info';
     message.innerHTML = `
         <span>Niet-opgeslagen wijzigingen hersteld.</span>
-        <button type="button" onclick="clearRestoreData('${formId}'); this.parentElement.remove();" style="margin-left: 1rem; background: none; border: none; color: inherit; text-decoration: underline; cursor: pointer;">
+        <button type="button" onclick="clearRestoreData('${formId}'); this.parentElement.remove();" class="restore-dismiss-btn">
             Verwijderen
         </button>
     `;

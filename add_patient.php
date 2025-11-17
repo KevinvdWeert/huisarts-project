@@ -82,7 +82,7 @@ include 'includes/header.php';
     <?php if ($success_message): ?>
         <div class="alert alert-success">
             <?php echo htmlspecialchars($success_message); ?>
-            <a href="dashboard.php" class="btn btn-primary btn-sm" style="margin-left: 1rem;">Ga naar overzicht</a>
+            <a href="dashboard.php" class="btn btn-primary btn-sm btn-with-margin">Ga naar overzicht</a>
         </div>
     <?php endif; ?>
     

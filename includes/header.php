@@ -1,3 +1,8 @@
+<?php
+if (!function_exists('isLoggedIn')) {
+    require_once __DIR__ . '/../auth.php';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +27,33 @@
                         Medical Practice
                     </h1>
                 </div>
-                <ul class="hidden md:flex space-x-8">
+                <ul class="hidden md:flex space-x-8 items-center">
                     <li><a href="index.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">Home</a></li>
                     <li><a href="about.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">About</a></li>
                     <li><a href="services.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">Services</a></li>
                     <li><a href="contact.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">Contact</a></li>
+                    <?php if (isLoggedIn()): ?>
+                        <li><a href="dashboard.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">Dashboard</a></li>
+                        <li><a href="add_patient.php" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">Nieuwe Patiënt</a></li>
+                        <li class="relative group">
+                            <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                <span><?php echo htmlspecialchars(getCurrentUser()['username']); ?></span>
+                            </button>
+                            <div class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                                <div class="px-4 py-2 text-sm text-gray-500 border-b border-gray-200">
+                                    <?php echo htmlspecialchars(getCurrentUser()['role']); ?>
+                                </div>
+                                <a href="logout.php" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                    Uitloggen
+                                </a>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <li><a href="login.php" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Inloggen</a></li>
+                    <?php endif; ?>
                 </ul>
                 <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,6 +68,16 @@
                     <li><a href="about.php" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors">About</a></li>
                     <li><a href="services.php" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors">Services</a></li>
                     <li><a href="contact.php" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors">Contact</a></li>
+                    <?php if (isLoggedIn()): ?>
+                        <li><a href="dashboard.php" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors">Dashboard</a></li>
+                        <li><a href="add_patient.php" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors">Nieuwe Patiënt</a></li>
+                        <li class="border-t border-gray-200 pt-2">
+                            <span class="block py-2 text-gray-500 text-sm"><?php echo htmlspecialchars(getCurrentUser()['username']); ?> (<?php echo htmlspecialchars(getCurrentUser()['role']); ?>)</span>
+                        </li>
+                        <li><a href="logout.php" class="block py-2 text-red-600 hover:text-red-700 transition-colors font-medium">Uitloggen</a></li>
+                    <?php else: ?>
+                        <li><a href="login.php" class="block py-2 text-blue-600 hover:text-blue-700 transition-colors font-semibold">Inloggen</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>

@@ -1,40 +1,9 @@
 <?php 
-// Include config first to set session parameters
 require_once 'config/config.php';
 require_once 'auth.php'; 
 include_once 'includes/header.php'; 
 include_once 'database/connection.php'; 
 ?>
-
-<!-- Check if user is logged in and show admin panel link -->
-<?php if (isLoggedIn()): ?>
-    <div class="admin-panel-banner">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="text-white">
-                Welkom, <?php echo htmlspecialchars(getCurrentUser()['username']); ?>! 
-                <span class="text-white/80">(<?php echo htmlspecialchars(getCurrentUser()['role']); ?>)</span>
-            </div>
-            <div class="space-x-4">
-                <a href="dashboard.php" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300">
-                    📊 Patiënten Dashboard
-                </a>
-                <a href="logout.php" class="border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
-                    Uitloggen
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <style>
-    .admin-panel-banner {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-    }
-    </style>
-<?php endif; ?>
 
 <div class="container mx-auto px-6 py-12">
     <!-- Hero Section -->
@@ -58,10 +27,10 @@ include_once 'database/connection.php';
             <div class="mt-10 space-x-4">
                 <?php if (isLoggedIn()): ?>
                     <a href="dashboard.php" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                        📊 Ga naar Dashboard
+                        Ga naar Dashboard
                     </a>
                     <a href="add_patient.php" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
-                        ➕ Nieuwe Patiënt
+                        Nieuwe Patiënt
                     </a>
                 <?php else: ?>
                     <button class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
@@ -72,14 +41,6 @@ include_once 'database/connection.php';
                     </button>
                 <?php endif; ?>
             </div>
-            
-            <?php if (!isLoggedIn()): ?>
-                <div class="mt-8">
-                    <a href="login.php" class="text-white/80 hover:text-white transition-colors duration-300 underline">
-                        👨‍⚕️ Medewerker Inloggen
-                    </a>
-                </div>
-            <?php endif; ?>
         </div>
     </section>
 

@@ -34,9 +34,7 @@ function getCurrentUser() {
 }
 
 // Login function
-function login($username, $password) {
-    global $pdo;
-    
+function login($pdo, $username, $password) {    
     try {
         $stmt = $pdo->prepare("SELECT user_id, username, password_hash, role FROM users WHERE username = ?");
         $stmt->execute([$username]);
