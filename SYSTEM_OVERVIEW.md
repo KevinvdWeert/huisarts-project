@@ -1,6 +1,5 @@
 # Huisarts Patient Management System
 
-## Overzicht
 Een complete patiënten management systeem voor huisartspraktijken met de volgende functionaliteiten:
 
 ## 🎯 Belangrijkste Functionaliteiten
