@@ -1,4 +1,7 @@
-<?php include_once 'includes/header.php'; ?>
+<?php 
+require_once 'config/config.php';
+include_once 'includes/header.php'; 
+?>
 
 <div class="container mx-auto px-6 py-12">
     <!-- Hero Section -->

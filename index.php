@@ -1,5 +1,9 @@
-<?php include_once 'includes/header.php'; ?>
-<?php include_once 'database/connection.php'; ?>
+<?php 
+require_once 'config/config.php';
+require_once 'auth.php'; 
+include_once 'includes/header.php'; 
+include_once 'database/connection.php'; 
+?>
 
 <div class="container mx-auto px-6 py-12">
     <!-- Hero Section -->
@@ -21,12 +25,21 @@
                 preventive care, and chronic disease management. Your health is central to everything we do.
             </p>
             <div class="mt-10 space-x-4">
-                <button class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    Book Appointment
-                </button>
-                <button class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
-                    <a href="services.php">Learn More</a>
-                </button>
+                <?php if (isLoggedIn()): ?>
+                    <a href="dashboard.php" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Ga naar Dashboard
+                    </a>
+                    <a href="add_patient.php" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                        Nieuwe Patiënt
+                    </a>
+                <?php else: ?>
+                    <button class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Book Appointment
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                        <a href="services.php">Learn More</a>
+                    </button>
+                <?php endif; ?>
             </div>
         </div>
     </section>
