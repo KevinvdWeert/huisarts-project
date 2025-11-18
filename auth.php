@@ -39,6 +39,26 @@ function getCurrentUser() {
 
 // Login function
 function login($pdo, $username, $password) {    
+    // Get rate limiter and audit logger
+    $rateLimiter = getRateLimiter($pdo);
+    $auditLogger = getAuditLogger($pdo);
+    $clientIp = RateLimiter::getClientIdentifier();
+    
+    // Check rate limit
+    $rateCheck = $rateLimiter->checkLimit($clientIp, 'login', 5, 300, 900);
+    if (!$rateCheck['allowed']) {
+        $auditLogger->log(AuditLogger::EVENT_RATE_LIMIT_EXCEEDED, [
+            'severity' => AuditLogger::SEVERITY_WARNING,
+            'username' => $username,
+            'details' => [
+                'action' => 'login',
+                'retry_after' => $rateCheck['retryAfter']
+            ],
+            'success' => false
+        ]);
+        return false;
+    }
+    
     try {
         $stmt = $pdo->prepare("SELECT user_id, username, password_hash, role FROM users WHERE username = ?");
         $stmt->execute([$username]);
@@ -50,22 +70,73 @@ function login($pdo, $username, $password) {
             $_SESSION['role'] = $user['role'];
             $_SESSION['login_time'] = time();
             
+            // Generate session fingerprint for added security
+            $_SESSION['fingerprint'] = hash('sha256', 
+                $_SERVER['HTTP_USER_AGENT'] . 
+                $clientIp . 
+                session_id()
+            );
+            
+            // Reset rate limit on successful login
+            $rateLimiter->reset($clientIp, 'login');
+            
+            // Log successful login
+            $auditLogger->log(AuditLogger::EVENT_LOGIN_SUCCESS, [
+                'severity' => AuditLogger::SEVERITY_INFO,
+                'user_id' => $user['user_id'],
+                'username' => $user['username'],
+                'details' => ['role' => $user['role']]
+            ]);
+            
             // Update last login time if you want to track it
             // $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE user_id = ?");
             // $stmt->execute([$user['user_id']]);
             
+            // Regenerate session ID to prevent session fixation
+            session_regenerate_id(true);
+            
             return true;
         }
+        
+        // Log failed login attempt
+        $auditLogger->log(AuditLogger::EVENT_LOGIN_FAILURE, [
+            'severity' => AuditLogger::SEVERITY_WARNING,
+            'username' => $username,
+            'details' => ['reason' => 'Invalid credentials'],
+            'success' => false
+        ]);
         
         return false;
     } catch (PDOException $e) {
         error_log("Login error: " . $e->getMessage());
+        
+        // Log error
+        $auditLogger->log(AuditLogger::EVENT_LOGIN_FAILURE, [
+            'severity' => AuditLogger::SEVERITY_ERROR,
+            'username' => $username,
+            'details' => ['error' => 'Database error'],
+            'success' => false
+        ]);
+        
         return false;
     }
 }
 
 // Logout function
 function logout() {
+    // Log logout event before clearing session
+    if (isLoggedIn()) {
+        try {
+            $pdo = getDbConnection();
+            $auditLogger = getAuditLogger($pdo);
+            $auditLogger->log(AuditLogger::EVENT_LOGOUT, [
+                'severity' => AuditLogger::SEVERITY_INFO
+            ]);
+        } catch (Exception $e) {
+            error_log("Error logging logout: " . $e->getMessage());
+        }
+    }
+    
     // Clear all session variables
     $_SESSION = array();
     
@@ -100,6 +171,35 @@ function checkSessionTimeout() {
 
 // Call this on every protected page to check session
 function checkSession() {
+    // Validate session fingerprint
+    if (isLoggedIn() && isset($_SESSION['fingerprint'])) {
+        $clientIp = RateLimiter::getClientIdentifier();
+        $currentFingerprint = hash('sha256', 
+            $_SERVER['HTTP_USER_AGENT'] . 
+            $clientIp . 
+            session_id()
+        );
+        
+        // If fingerprint doesn't match, potential session hijacking
+        if (!hash_equals($_SESSION['fingerprint'], $currentFingerprint)) {
+            try {
+                $pdo = getDbConnection();
+                $auditLogger = getAuditLogger($pdo);
+                $auditLogger->log(AuditLogger::EVENT_ACCESS_DENIED, [
+                    'severity' => AuditLogger::SEVERITY_CRITICAL,
+                    'details' => ['reason' => 'Session fingerprint mismatch'],
+                    'success' => false
+                ]);
+            } catch (Exception $e) {
+                error_log("Error logging fingerprint mismatch: " . $e->getMessage());
+            }
+            
+            logout();
+            header('Location: login.php?error=session_invalid');
+            exit;
+        }
+    }
+    
     checkSessionTimeout();
     requireLogin();
 }

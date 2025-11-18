@@ -7,8 +7,12 @@
 // Start with config
 require_once __DIR__ . '/../config/config.php';
 
-// Load security helpers
+// Load security components
+require_once __DIR__ . '/security_headers.php';
 require_once __DIR__ . '/security_helpers.php';
+require_once __DIR__ . '/encryption.php';
+require_once __DIR__ . '/rate_limiter.php';
+require_once __DIR__ . '/audit_logger.php';
 
 // Load authentication
 require_once __DIR__ . '/../auth.php';

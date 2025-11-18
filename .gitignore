@@ -1,0 +1,42 @@
+# Environment and sensitive configuration
+.env
+config/secrets.php
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+error_log
+
+# Backups
+*.bak
+*.backup
+backups/
+
+# Dependencies
+vendor/
+node_modules/
+
+# Cache
+cache/
+*.cache
+
+# Uploads (if user uploads are implemented)
+uploads/*
+!uploads/.gitkeep
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
