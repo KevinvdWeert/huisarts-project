@@ -95,24 +95,6 @@ function initEnhancedSearch() {
             }
         });
         
-        // Clear search functionality
-        const clearBtn = document.createElement('button');
-        clearBtn.type = 'button';
-        clearBtn.innerHTML = '✕';
-        clearBtn.className = 'search-clear';
-        clearBtn.style.cssText = `
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: none;
-            font-size: 18px;
-            color: #666;
-            cursor: pointer;
-            display: none;
-        `;
-        
         const searchContainer = searchInput.parentElement;
         if (searchContainer) {
             searchContainer.style.position = 'relative';
@@ -1028,13 +1010,6 @@ function smoothScrollTo(element, duration) {
 function autoHideAlerts() {
     const alerts = document.querySelectorAll('.alert, .bg-green-100, .bg-red-100');
     alerts.forEach((alert, index) => {
-        // Add close button
-        const closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '×';
-        closeBtn.className = 'alert-close';
-        closeBtn.onclick = () => hideAlert(alert);
-        alert.appendChild(closeBtn);
-        
         // Auto-hide with stagger
         setTimeout(() => {
             hideAlert(alert);
@@ -1318,20 +1293,6 @@ enhancedStyles.textContent = `
     
     img.loaded {
         opacity: 1;
-    }
-    
-    /* Alert close button */
-    .alert-close {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        background: none;
-        border: none;
-        font-size: 1.25rem;
-        color: #6B7280;
-        cursor: pointer;
-        padding: 0.25rem;
-        line-height: 1;
     }
     
     /* Mobile nav improvements */

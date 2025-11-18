@@ -15,7 +15,7 @@ require_once 'includes/header.php';
         </div>
         <div class="relative z-10 py-20 px-8 text-center">
             <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Welcome to Our 
+                Welcome to Our
                 <span class="block bg-gradient-to-r from-yellow-200 to-pink-200 bg-clip-text text-transparent">
                     Medical Practice
                 </span>

@@ -28,8 +28,9 @@ $offset = ($current_page - 1) * $patients_per_page;
 
 // Search and sort
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$sort_by = isset($_GET['sort']) ? $_GET['sort'] : 'last_name';
-$sort_order = isset($_GET['order']) ? $_GET['order'] : 'asc';
+$allowed_sort_fields = ['last_name', 'first_name', 'email', 'city', 'date_of_birth', 'created_at'];
+$sort_by = isset($_GET['sort']) && in_array($_GET['sort'], $allowed_sort_fields) ? $_GET['sort'] : 'last_name';
+$sort_order = isset($_GET['order']) && strtoupper($_GET['order']) === 'DESC' ? 'DESC' : 'ASC';
 
 try {
     $where_clause = '';
@@ -153,7 +154,7 @@ require_once 'includes/header.php';
                     ];
                     foreach ($sort_options as $key => $option):
                         $is_active = $sort_by === $key;
-                        $new_order = $is_active && $sort_order === 'ASC' ? 'desc' : 'asc';
+                        $new_order = $is_active && $sort_order === 'ASC' ? 'DESC' : 'ASC';
                     ?>
                         <a href="?sort=<?php echo $key; ?>&order=<?php echo $new_order; ?>&view=<?php echo $view_mode; ?>&per_page=<?php echo $per_page; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
                            class="flex items-center justify-between px-3 py-2 rounded-lg <?php echo $is_active ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'; ?> transition-colors">
@@ -288,14 +289,21 @@ require_once 'includes/header.php';
             <!-- Table View -->
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-max">
+                    <table style="width: 100%; min-width: 1200px; table-layout: fixed;">
+                        <colgroup>
+                            <col style="width: 300px;">
+                            <col style="width: 100px;">
+                            <col style="width: 300px;">
+                            <col style="width: 150px;">
+                            <col style="width: 350px;">
+                        </colgroup>
                         <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Naam</th>
                                 <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Leeftijd</th>
                                 <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Contact</th>
                                 <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Plaats</th>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap w-72">Acties</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Acties</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -325,11 +333,11 @@ require_once 'includes/header.php';
                                         <?php endif; ?>
                                     </td>
                                     <td class="px-6 py-4 text-gray-600 whitespace-nowrap"><?php echo $patient['city'] ? htmlspecialchars($patient['city']) : '-'; ?></td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex space-x-2">
-                                            <a href="patient_notes.php?id=<?php echo $patient['patient_id']; ?>" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-200 transition-colors whitespace-nowrap">Notities</a>
-                                            <a href="edit_patient.php?id=<?php echo $patient['patient_id']; ?>" class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-medium hover:bg-green-200 transition-colors whitespace-nowrap">Bewerk</a>
-                                            <a href="delete_patient.php?id=<?php echo $patient['patient_id']; ?>" class="px-3 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-medium hover:bg-red-200 transition-colors whitespace-nowrap" onclick="return confirm('Weet je het zeker?')">Verwijder</a>
+                                    <td class="px-6 py-4">
+                                        <div style="display: flex; gap: 8px; min-width: 320px;">
+                                            <a href="patient_notes.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #DBEAFE; color: #1E40AF; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;">Notities</a>
+                                            <a href="edit_patient.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #D1FAE5; color: #065F46; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;">Bewerk</a>
+                                            <a href="delete_patient.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #FEE2E2; color: #991B1B; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;" onclick="return confirm('Weet je het zeker?')">Verwijder</a>
                                         </div>
                                     </td>
                                 </tr>
