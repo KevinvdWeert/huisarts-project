@@ -44,6 +44,10 @@ function getNavLinkClass($page) {
     $active_class = "text-blue-600 font-bold border-b-2 border-blue-600";
     return isActivePage($page) ? $active_class : $base_class;
 }
+
+// Get current URL for canonical tag
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$current_url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,11 +58,43 @@ function getNavLinkClass($page) {
     <meta name="description" content="<?php echo htmlspecialchars($page_description); ?>">
     <meta name="keywords" content="general practitioner, medical care, healthcare, chronic diseases">
     <meta name="robots" content="index, follow">
+    <meta name="author" content="Medical Practice">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo htmlspecialchars($current_url); ?>">
+    <meta property="og:title" content="<?php echo htmlspecialchars($page_title); ?> - Medical Practice">
+    <meta property="og:description" content="<?php echo htmlspecialchars($page_description); ?>">
+    <meta property="og:image" content="<?php echo $protocol . '://' . $_SERVER['HTTP_HOST']; ?>/assets/img/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo htmlspecialchars($current_url); ?>">
+    <meta property="twitter:title" content="<?php echo htmlspecialchars($page_title); ?> - Medical Practice">
+    <meta property="twitter:description" content="<?php echo htmlspecialchars($page_description); ?>">
+    <meta property="twitter:image" content="<?php echo $protocol . '://' . $_SERVER['HTTP_HOST']; ?>/assets/img/og-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?php echo htmlspecialchars($current_url); ?>">
+    
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title><?php echo htmlspecialchars($page_title); ?> - Medical Practice</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/script.js" defer></script>
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MedicalClinic",
+        "name": "Medical Practice",
+        "description": "<?php echo htmlspecialchars($page_description); ?>",
+        "url": "<?php echo $protocol . '://' . $_SERVER['HTTP_HOST']; ?>",
+        "logo": "<?php echo $protocol . '://' . $_SERVER['HTTP_HOST']; ?>/assets/img/logo.svg"
+    }
+    </script>
 </head>
 <body class="bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-lg">
