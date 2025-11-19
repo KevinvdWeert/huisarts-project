@@ -338,6 +338,26 @@ function initNotesEnhancements() {
         textarea.addEventListener('input', () => autoResize(textarea));
     });
     
+    // Validate note date - prevent future dates
+    const noteDateInput = document.querySelector('input[name="note_date"]');
+    if (noteDateInput) {
+        // Set max attribute to today
+        const today = new Date().toISOString().split('T')[0];
+        noteDateInput.setAttribute('max', today);
+        
+        // Add validation on change
+        noteDateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            
+            if (selectedDate > currentDate) {
+                showFieldError(this, 'Notitiedatum kan niet in de toekomst liggen');
+                this.value = today;
+            }
+        });
+    }
+    
     // Note deletion confirmation
     const deleteLinks = document.querySelectorAll('a[href*="delete_note"]');
     deleteLinks.forEach(link => {

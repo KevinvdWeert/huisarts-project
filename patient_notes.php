@@ -46,6 +46,8 @@ if ($_POST && isset($_POST['add_note'])) {
         $error_message = "Onderwerp is verplicht.";
     } elseif (empty($text)) {
         $error_message = "Notitie tekst is verplicht.";
+    } elseif (!empty($note_date) && strtotime($note_date) > time()) {
+        $error_message = "Notitiedatum kan niet in de toekomst liggen.";
     } else {
         try {
             // Encrypt the note text before storing
