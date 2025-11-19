@@ -1,8 +1,7 @@
 <?php
-/**
- * Security Helper Functions
- * CSRF protection, input validation, and security utilities
- */
+//Security Helper Functions
+//CSRF protection, input validation, and security utilities
+
 
 function generateCsrfToken() {
     // Generate a CSRF token and store it in the session
