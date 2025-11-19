@@ -139,33 +139,6 @@ require_once 'includes/header.php';
                     <?php endforeach; ?>
                 </div>
             </div>
-            
-            <!-- Sort Options -->
-            <div>
-                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Sorteren</h4>
-                <div class="space-y-1">
-                    <?php
-                    $sort_options = [
-                        'last_name' => ['icon' => '👤', 'label' => 'Achternaam'],
-                        'first_name' => ['icon' => '✏️', 'label' => 'Voornaam'],
-                        'date_of_birth' => ['icon' => '🎂', 'label' => 'Leeftijd'],
-                        'city' => ['icon' => '🏘️', 'label' => 'Plaats'],
-                        'created_at' => ['icon' => '📅', 'label' => 'Registratie']
-                    ];
-                    foreach ($sort_options as $key => $option):
-                        $is_active = $sort_by === $key;
-                        $new_order = $is_active && $sort_order === 'ASC' ? 'DESC' : 'ASC';
-                    ?>
-                        <a href="?sort=<?php echo $key; ?>&order=<?php echo $new_order; ?>&view=<?php echo $view_mode; ?>&per_page=<?php echo $per_page; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
-                           class="flex items-center justify-between px-3 py-2 rounded-lg <?php echo $is_active ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'; ?> transition-colors">
-                            <span class="text-sm"><?php echo $option['icon']; ?> <?php echo $option['label']; ?></span>
-                            <?php if ($is_active): ?>
-                                <span class="text-xs"><?php echo $sort_order === 'ASC' ? '↑' : '↓'; ?></span>
-                            <?php endif; ?>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
         </div>
     </aside>
     
