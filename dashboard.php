@@ -66,7 +66,7 @@ require_once 'includes/header.php';
 <!-- Modern Sidebar Dashboard -->
 <div class="flex min-h-screen bg-gray-50">
     <!-- Sidebar -->
-    <aside class="w-72 bg-white border-r border-gray-200 fixed h-full overflow-y-auto">
+    <aside class="w-72 bg-white border-r border-gray-200 fixed h-screen overflow-y-auto z-10">
         <div class="p-6">
             <!-- User Profile -->
             <div class="mb-8">
@@ -170,7 +170,7 @@ require_once 'includes/header.php';
     </aside>
     
     <!-- Main Content -->
-    <main class="flex-1 ml-72 p-8">
+    <main class="flex-1 ml-72 p-8 max-w-full overflow-x-hidden">
         <!-- Search Bar -->
         <div class="mb-6">
             <form method="GET" action="" class="flex items-center space-x-4">
@@ -289,14 +289,7 @@ require_once 'includes/header.php';
             <!-- Table View -->
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table style="width: 100%; min-width: 1200px; table-layout: fixed;">
-                        <colgroup>
-                            <col style="width: 300px;">
-                            <col style="width: 100px;">
-                            <col style="width: 300px;">
-                            <col style="width: 150px;">
-                            <col style="width: 350px;">
-                        </colgroup>
+                    <table class="w-full">
                         <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase whitespace-nowrap">Naam</th>
@@ -329,15 +322,15 @@ require_once 'includes/header.php';
                                             <div class="whitespace-nowrap"><?php echo htmlspecialchars($patient['phone']); ?></div>
                                         <?php endif; ?>
                                         <?php if ($patient['email']): ?>
-                                            <div class="text-xs text-gray-500 truncate max-w-xs"><?php echo htmlspecialchars($patient['email']); ?></div>
+                                            <div class="text-xs text-gray-500 truncate" style="max-width: 200px;"><?php echo htmlspecialchars($patient['email']); ?></div>
                                         <?php endif; ?>
                                     </td>
                                     <td class="px-6 py-4 text-gray-600 whitespace-nowrap"><?php echo $patient['city'] ? htmlspecialchars($patient['city']) : '-'; ?></td>
                                     <td class="px-6 py-4">
-                                        <div style="display: flex; gap: 8px; min-width: 320px;">
-                                            <a href="patient_notes.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #DBEAFE; color: #1E40AF; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;">Notities</a>
-                                            <a href="edit_patient.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #D1FAE5; color: #065F46; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;">Bewerk</a>
-                                            <a href="delete_patient.php?id=<?php echo $patient['patient_id']; ?>" style="display: inline-block; padding: 4px 12px; background-color: #FEE2E2; color: #991B1B; border-radius: 8px; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap;" onclick="return confirm('Weet je het zeker?')">Verwijder</a>
+                                        <div class="flex gap-2 flex-wrap">
+                                            <a href="patient_notes.php?id=<?php echo $patient['patient_id']; ?>" class="inline-block px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium hover:bg-blue-100 transition-colors whitespace-nowrap">Notities</a>
+                                            <a href="edit_patient.php?id=<?php echo $patient['patient_id']; ?>" class="inline-block px-3 py-1 bg-green-50 text-green-600 rounded-lg text-xs font-medium hover:bg-green-100 transition-colors whitespace-nowrap">Bewerk</a>
+                                            <a href="delete_patient.php?id=<?php echo $patient['patient_id']; ?>" class="inline-block px-3 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-medium hover:bg-red-100 transition-colors whitespace-nowrap" onclick="return confirm('Weet je het zeker?')">Verwijder</a>
                                         </div>
                                     </td>
                                 </tr>
