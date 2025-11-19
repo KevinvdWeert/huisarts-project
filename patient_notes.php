@@ -1,6 +1,7 @@
 <?php
 require_once 'config/config.php';
 require_once 'auth.php';
+require_once 'includes/encryption.php';
 checkSession();
 
 $current_user = getCurrentUser();
@@ -47,10 +48,17 @@ if ($_POST && isset($_POST['add_note'])) {
         $error_message = "Notitie tekst is verplicht.";
     } else {
         try {
+            // Encrypt the note text before storing
+            $encrypted_text = encryptNote($text);
+            
+            if ($encrypted_text === false) {
+                throw new Exception("Encryption failed");
+            }
+            
             $sql = "INSERT INTO notes (patient_id, user_id, subject, note_date, text, created_at) 
                     VALUES (?, ?, ?, ?, ?, NOW())";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$patient_id, $current_user['user_id'], $subject, $note_date, $text]);
+            $stmt->execute([$patient_id, $current_user['user_id'], $subject, $note_date, $encrypted_text]);
             
             $success_message = "Notitie succesvol toegevoegd.";
             // Clear form
@@ -59,6 +67,9 @@ if ($_POST && isset($_POST['add_note'])) {
         } catch (PDOException $e) {
             error_log("Error adding note: " . $e->getMessage());
             $error_message = "Er is een fout opgetreden bij het toevoegen van de notitie.";
+        } catch (Exception $e) {
+            error_log("Error encrypting note: " . $e->getMessage());
+            $error_message = "Er is een fout opgetreden bij het beveiligen van de notitie.";
         }
     }
 }
@@ -108,6 +119,15 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$patient_id]);
     $notes = $stmt->fetchAll();
+    
+    // Decrypt note texts
+    foreach ($notes as &$note) {
+        if (!empty($note['text'])) {
+            $decrypted = decryptNote($note['text']);
+            $note['text'] = ($decrypted !== false) ? $decrypted : '[Decryption failed]';
+        }
+    }
+    unset($note); // Break reference
 } catch (PDOException $e) {
     error_log("Error fetching notes: " . $e->getMessage());
     $error_message = "Er is een fout opgetreden bij het ophalen van notities.";

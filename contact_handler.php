@@ -53,23 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $_SESSION['form_success'] = "Thank you for your message! We will contact you within 24 hours.";
         
-        // Optionally, you could save to database here
-        /*
-        try {
-            $pdo = getDbConnection();
-            
-            $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, phone, subject, message, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
-            $stmt->execute([$name, $email, $phone, $subject, $message]);
-            
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            $_SESSION['form_errors'] = ["A technical error occurred. Please try again later."];
-            $_SESSION['form_data'] = $_POST;
-            header('Location: contact.php');
-            exit;
-        }
-        */
-        
         // Redirect back to contact page
         header('Location: contact.php');
         exit;

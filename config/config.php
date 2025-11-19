@@ -26,6 +26,11 @@ if (session_status() === PHP_SESSION_NONE) {
 // Define session lifetime constant for application use
 define('SESSION_LIFETIME', 3600); // 1 hour
 
+// Encryption Configuration for Patient Notes
+// IMPORTANT: Change this key in production! Keep it secret and secure.
+// Generate a new key using: base64_encode(openssl_random_pseudo_bytes(32))
+define('ENCRYPTION_KEY', 'MzJjaGFyYWN0ZXJrZXlmb3JBRVMyNTZlbmNyeXB0'); // 32-byte key base64 encoded
+
 // Error Reporting (set to 0 in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

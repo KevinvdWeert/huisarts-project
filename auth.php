@@ -1,5 +1,4 @@
 <?php
-// Don't start session here - let it be handled by the calling script
 require_once __DIR__ . '/database/connection.php';
 
 // Ensure session is started (safe check)
