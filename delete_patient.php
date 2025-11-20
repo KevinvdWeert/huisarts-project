@@ -79,7 +79,7 @@ require_once 'includes/header.php';
     <aside class="w-72 bg-white border-r border-gray-200 fixed h-full overflow-y-auto">
         <div class="p-6">
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-red-600 mb-2">⚠️ Verwijderen</h2>
+                <h2 class="text-2xl font-bold text-red-600 mb-2">Verwijderen</h2>
                 <p class="text-sm text-gray-500">Deze actie kan niet ongedaan worden</p>
             </div>
             <div class="space-y-2">
@@ -110,7 +110,6 @@ require_once 'includes/header.php';
     
     <div class="delete-form">
         <div class="warning-section">
-            <div class="warning-icon">⚠️</div>
             <h2>Patiënt definitief verwijderen?</h2>
             <p class="warning-text">
                 U staat op het punt om de volgende patiënt permanent te verwijderen uit het systeem.
@@ -181,12 +180,11 @@ require_once 'includes/header.php';
         
         <?php if ($notes_count > 0): ?>
         <div class="notes-warning">
-            <div class="warning-icon">📝</div>
             <div class="notes-info">
                 <h4>Let op: Deze patiënt heeft <?php echo $notes_count; ?> notitie(s)</h4>
                 <p>Alle notities worden ook permanent verwijderd bij het verwijderen van deze patiënt.</p>
                 <a href="patient_notes.php?id=<?php echo $patient_id; ?>" class="btn btn-info btn-sm">
-                    📝 Bekijk notities eerst
+                    Bekijk notities eerst
                 </a>
             </div>
         </div>
@@ -206,11 +204,11 @@ require_once 'includes/header.php';
                         value="1" 
                         class="btn btn-danger"
                         onclick="return confirm('Laatste waarschuwing: Weet u heel zeker dat u patiënt <?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?> wilt verwijderen? Type JA om te bevestigen.') && prompt('Type JA (hoofdletters) om te bevestigen:') === 'JA'">
-                    🗑️ Definitief Verwijderen
+                        Definitief Verwijderen
                 </button>
                 <a href="dashboard.php" class="btn btn-secondary">Annuleren</a>
                 <a href="edit_patient.php?id=<?php echo $patient_id; ?>" class="btn btn-primary">
-                    ✏️ Bewerken in plaats van verwijderen
+                    Bewerken in plaats van verwijderen
                 </a>
             </div>
         </form>
