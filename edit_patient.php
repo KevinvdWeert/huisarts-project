@@ -83,9 +83,6 @@ if ($_POST) {
             ];
             
             $stmt = $pdo->prepare($sql);
-            $sth->bindParam('calories', $calories, PDO::PARAM_INT);
-            /* Names can be prefixed with colons ":" too (optional) */
-            $sth->bindParam(':colour', $colour, PDO::PARAM_STR);            
             $stmt->execute($params);
             
             $success_message = "Patiëntgegevens succesvol bijgewerkt!";

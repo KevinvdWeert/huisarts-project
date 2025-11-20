@@ -173,15 +173,15 @@ require_once 'includes/header.php';
     <!-- Quick Patient Info -->
     <div class="patient-summary">
         <div class="summary-item">
-            <strong>📞 Telefoon:</strong> 
+            <strong>Telefoon:</strong> 
             <?php echo $patient['phone'] ? htmlspecialchars($patient['phone']) : 'Niet opgegeven'; ?>
         </div>
         <div class="summary-item">
-            <strong>✉️ Email:</strong> 
+            <strong>Email:</strong> 
             <?php echo $patient['email'] ? htmlspecialchars($patient['email']) : 'Niet opgegeven'; ?>
         </div>
         <div class="summary-item">
-            <strong>🏠 Adres:</strong> 
+            <strong>Adres:</strong> 
             <?php 
             $address_parts = array_filter([
                 $patient['address'],

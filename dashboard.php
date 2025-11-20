@@ -66,75 +66,137 @@ require_once 'includes/header.php';
 <!-- Modern Sidebar Dashboard -->
 <div class="flex min-h-screen bg-gray-50">
     <!-- Sidebar -->
-    <aside class="w-72 bg-white border-r border-gray-200 fixed h-screen overflow-y-auto z-10">
+    <aside class="sidebar-modern w-72 bg-white border-r border-gray-200 fixed h-screen overflow-y-auto z-10 shadow-lg">
         <div class="p-6">
             <!-- User Profile -->
-            <div class="mb-8">
-                <div class="flex items-center space-x-3 mb-6">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+            <div class="mb-8 animate-fade-in">
+                <div class="flex items-center space-x-3 mb-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg ring-4 ring-white">
                         <?php echo strtoupper(substr($current_user['username'], 0, 2)); ?>
                     </div>
-                    <div>
-                        <h3 class="font-bold text-gray-800"><?php echo htmlspecialchars($current_user['username']); ?></h3>
-                        <p class="text-xs text-gray-500"><?php echo htmlspecialchars($current_user['role']); ?></p>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800 text-lg"><?php echo htmlspecialchars($current_user['username']); ?></h3>
+                        <p class="text-xs text-gray-500 flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                            <?php echo htmlspecialchars($current_user['role']); ?>
+                        </p>
                     </div>
                 </div>
                 
-                <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-4 text-white">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm opacity-90">Totaal Patiënten</span>
-                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
+                <div class="stats-card bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-5 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm opacity-90 font-medium">Totaal Patiënten</span>
+                        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-3xl font-black"><?php echo number_format($total_patients); ?></div>
+                    <div class="text-4xl font-black mb-1"><?php echo number_format($total_patients); ?></div>
+                    <div class="text-xs opacity-75">Actieve patiënten in systeem</div>
                 </div>
             </div>
             
             <!-- Quick Actions -->
             <div class="mb-8">
-                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Snelle Acties</h4>
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center">
+                    <span class="w-1 h-4 bg-blue-500 rounded mr-2"></span>
+                    Snelle Acties
+                </h4>
                 <div class="space-y-2">
-                    <a href="add_patient.php" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-blue-50 transition-colors group">
-                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center group-hover:bg-green-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="add_patient.php" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 transition-all duration-300 group transform hover:translate-x-1 border border-green-100">
+                        <div class="w-10 h-10 rounded-lg bg-green-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                             </svg>
                         </div>
-                        <span class="font-medium text-gray-700">Nieuwe Patiënt</span>
+                        <span class="font-semibold text-gray-700 flex-1">Nieuwe Patiënt</span>
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-green-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="dashboard.php" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group transform hover:translate-x-1">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 group-hover:scale-110 transition-all">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                        </div>
+                        <span class="font-medium text-gray-700">Dashboard</span>
                     </a>
                 </div>
             </div>
             
             <!-- View Toggle -->
             <div class="mb-8">
-                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Weergave</h4>
-                <div class="grid grid-cols-2 gap-2">
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center">
+                    <span class="w-1 h-4 bg-purple-500 rounded mr-2"></span>
+                    Weergave
+                </h4>
+                <div class="grid grid-cols-2 gap-3">
                     <a href="?view=cards&per_page=<?php echo $per_page; ?>&sort=<?php echo $sort_by; ?>&order=<?php echo $sort_order; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
-                       class="flex flex-col items-center px-3 py-3 rounded-xl <?php echo $view_mode === 'cards' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'; ?> transition-colors">
-                        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="view-toggle flex flex-col items-center px-3 py-4 rounded-xl <?php echo $view_mode === 'cards' ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'; ?> transition-all duration-300 transform hover:scale-105 border <?php echo $view_mode === 'cards' ? 'border-blue-400' : 'border-gray-200'; ?>">
+                        <svg class="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                         </svg>
-                        <span class="text-xs font-medium">Kaarten</span>
+                        <span class="text-xs font-bold">Kaarten</span>
                     </a>
                     <a href="?view=table&per_page=<?php echo $per_page; ?>&sort=<?php echo $sort_by; ?>&order=<?php echo $sort_order; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
-                       class="flex flex-col items-center px-3 py-3 rounded-xl <?php echo $view_mode === 'table' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'; ?> transition-colors">
-                        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="view-toggle flex flex-col items-center px-3 py-4 rounded-xl <?php echo $view_mode === 'table' ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'; ?> transition-all duration-300 transform hover:scale-105 border <?php echo $view_mode === 'table' ? 'border-blue-400' : 'border-gray-200'; ?>">
+                        <svg class="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                         </svg>
-                        <span class="text-xs font-medium">Tabel</span>
+                        <span class="text-xs font-bold">Tabel</span>
                     </a>
                 </div>
             </div>
             
             <!-- Items Per Page -->
             <div class="mb-8">
-                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Items per Pagina</h4>
-                <div class="grid grid-cols-2 gap-2">
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center">
+                    <span class="w-1 h-4 bg-indigo-500 rounded mr-2"></span>
+                    Items per Pagina
+                </h4>
+                <div class="grid grid-cols-4 gap-2">
                     <?php foreach ([10, 25, 50, 100] as $option): ?>
                         <a href="?view=<?php echo $view_mode; ?>&per_page=<?php echo $option; ?>&sort=<?php echo $sort_by; ?>&order=<?php echo $sort_order; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
-                           class="flex items-center justify-center px-3 py-2 rounded-xl <?php echo $per_page === $option ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'; ?> transition-colors font-medium text-sm">
+                           class="per-page-btn flex items-center justify-center px-2 py-3 rounded-xl <?php echo $per_page === $option ? 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'; ?> transition-all duration-300 font-bold text-sm transform hover:scale-110 border <?php echo $per_page === $option ? 'border-indigo-400' : 'border-gray-200'; ?>">
                             <?php echo $option; ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Sorteren -->
+            <div class="mb-6">
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center">
+                    <span class="w-1 h-4 bg-pink-500 rounded mr-2"></span>
+                    Sorteren
+                </h4>
+                <div class="space-y-2">
+                    <?php
+                    $sort_options = [
+                        'last_name' => ['label' => 'Achternaam'],
+                        'first_name' => ['label' => 'Voornaam'],
+                        'date_of_birth' => ['label' => 'Leeftijd'],
+                        'city' => ['label' => 'Plaats'],
+                        'created_at' => ['label' => 'Registratie']
+                    ];
+                    foreach ($sort_options as $key => $option):
+                        $is_active = $sort_by === $key;
+                        $new_order = $is_active && $sort_order === 'ASC' ? 'DESC' : 'ASC';
+                    ?>
+                        <a href="?sort=<?php echo $key; ?>&order=<?php echo $new_order; ?>&view=<?php echo $view_mode; ?>&per_page=<?php echo $per_page; ?><?php echo !empty($search) ? '&search='.urlencode($search) : ''; ?>" 
+                           class="sort-item flex items-center justify-between px-4 py-3 rounded-xl <?php echo $is_active ? 'bg-gradient-to-r from-pink-50 to-rose-50 border-2 border-pink-300' : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'; ?> transition-all duration-300 transform hover:translate-x-1">
+                            <span class="text-sm font-medium <?php echo $is_active ? 'text-pink-700' : 'text-gray-700'; ?>">
+                                <?php echo $option['label']; ?>
+                            </span>
+                            <?php if ($is_active): ?>
+                                <span class="text-lg font-bold text-pink-600"><?php echo $sort_order === 'ASC' ? '↑' : '↓'; ?></span>
+                            <?php else: ?>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            <?php endif; ?>
                         </a>
                     <?php endforeach; ?>
                 </div>
